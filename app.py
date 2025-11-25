@@ -1,12 +1,12 @@
 import streamlit as st
 from openai import OpenAI
+import os
 
 # ---------------------------------------
 # OpenRouter Client
 # ---------------------------------------
 client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key="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"
+    base_url="https://openrouter.ai/api/v1",api_key=os.getenv("OPENAI_API_KEY")
 )
 
 # ---------------------------------------
@@ -16,7 +16,6 @@ SYSTEM_PROMPT = """
 You are a Volunteer Screening Assistant. Your job is to conduct
 a structured, warm, and friendly interview with volunteers.
 Steps:
-1. Build rapport and welcome them.
 2. Ask about background, motivation, personality.
 3. Explain the SERVE program and how classes work.
 4. Check availability and commitment.
