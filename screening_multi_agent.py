@@ -2,6 +2,7 @@
 import streamlit as st
 from openai import OpenAI
 import textwrap, datetime, os, json, uuid
+from dotenv import load_dotenv
 
 # ---------------------------
 # Configuration
@@ -11,7 +12,11 @@ BASE_URL = "https://openrouter.ai/api/v1"
 RECORDS_DIR = "records"
 os.makedirs(RECORDS_DIR, exist_ok=True)
 
-# OpenRouter client (expects OPENROUTER_API_KEY in Streamlit secrets)
+load_dotenv()
+# ---------------------------
+# CLIENT
+# ---------------------------
+# expects OPENROUTER_API_KEY in .streamlit/secrets.toml
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=os.getenv("OPENAI_API_KEY")
@@ -22,7 +27,7 @@ client = OpenAI(
 # ---------------------------
 PHASES = {
     1: {"name": "Greeting & Rapport",
-        "guide": "Goalis to develop a rapport with the volunteer getting screened, start with a Warm greeting, understan if they are comfortable,have a light small talk (location/how their day is going/are they comfortable). Reassure them that 'this is a casual'. Ask one thing at a time."},
+        "guide": "Goalis to develop a rapport with the volunteer getting screened, start with a Warm greeting, understan if they are comfortable,have a light small talk (location/how their day is going/are they comfortable). Reassure them that 'this is a casual'. Ask one thing at a time, try to wrap up the conversation with 4 or 5 questions."},
     2: {"name": "Personal Intro",
         "guide": "Learn background (work/study), connection to children, motivation, strengths, concerns. One question at a time."},
     3: {"name": "Explain SERVE",
@@ -248,8 +253,7 @@ if user_text:
     try:
         assistant_reply = run_phase_agent(st.session_state.phase_id, st.session_state.history)
     except Exception as e:
-        assistant_reply = e
-        #assistant_reply = "Sorry — couldn't call the model just now. Please try again."
+        assistant_reply = "Sorry — couldn't call the model just now. Please try again."
     st.session_state.history.append({"role":"assistant","content":assistant_reply})
     # autosave a snapshot (append)
     save_records(st.session_state.history, st.session_state.extracted, st.session_state.meta, st.session_state.meta.get("file_prefix"))

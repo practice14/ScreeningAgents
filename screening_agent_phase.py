@@ -2,6 +2,7 @@
 import streamlit as st
 from openai import OpenAI
 import textwrap, datetime, os, json, uuid
+from dotenv import load_dotenv
 
 # ---------------------------
 # CONFIG
@@ -11,6 +12,7 @@ BASE_URL = "https://openrouter.ai/api/v1"
 RECORDS_DIR = "records"
 os.makedirs(RECORDS_DIR, exist_ok=True)
 
+load_dotenv()
 # ---------------------------
 # CLIENT
 # ---------------------------
