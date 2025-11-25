@@ -1,5 +1,5 @@
 .env
-.streamlit/secrets.toml
+.streamlit/
 records/
 __pycache__/
 .vscode/
