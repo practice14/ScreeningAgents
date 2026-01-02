@@ -1,5 +1,8 @@
 .env
 .streamlit/
+.streamlit/secrets.toml
+streamlit/
+streamlit/secrets.toml
 records/
 __pycache__/
 .vscode/
